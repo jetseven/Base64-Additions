@@ -153,9 +153,7 @@ inline unsigned int whiteSpaceFreeStringCreate(char **dest, const char *str, uns
 
 char * ITBase64EncodedStringCreate(const void *data, const unsigned int len, unsigned int *stringLength) {
 	
-	const unsigned int resultSizeWithoutLineBreaks = ((len / 3) + ((len % 3) != 0)) * 4;
-	const unsigned int numLineBreaks = resultSizeWithoutLineBreaks / 76;
-	const unsigned int resultSize = resultSizeWithoutLineBreaks + numLineBreaks;
+	const unsigned int resultSize = ((len / 3) + ((len % 3) != 0)) * 4;
 	const uint8_t *ptr = (uint8_t *)data;
 	const unsigned int restLen = len % 3;
 	const unsigned int effLen = len - restLen;
@@ -169,12 +167,6 @@ char * ITBase64EncodedStringCreate(const void *data, const unsigned int len, uns
 		
 		srcIndex += 3;
 		destIndex += 4;
-		
-		if (destIndex % 76 == 0) {
-			
-			dest[destIndex] = '\n';
-			destIndex++;
-		}
 	}
 	
 	if (restLen != 0) {
